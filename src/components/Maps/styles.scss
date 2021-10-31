@@ -1,0 +1,8 @@
+.leaflet-container {
+  width: 100%;
+  height: calc(100vh - 56px);
+}
+
+.leaflet-control-attribution.leaflet-control a {
+  display: none;
+}
