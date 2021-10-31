@@ -13,9 +13,7 @@ function HomePage(props) {
 
   return (
     <div className='wrapper'>
-      {/* <div className='sidebar__container'> */}
       <SideBar />
-      {/* </div> */}
       <div className='map'>
         <NavbarComponent className='navbar-component' handleSetInputValue={handleSetInputValue} />
         <Maps className='main-container' distance={inputValue} />

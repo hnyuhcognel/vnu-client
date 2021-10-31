@@ -16,9 +16,15 @@ import {
   Label,
 } from 'reactstrap'
 import './styles.scss'
+import ReactTooltip from 'react-tooltip'
 
 const NavbarComponent = (props) => {
   const { className, handleSetInputValue } = props
+  const inputRef = React.useRef(null)
+  React.useEffect(() => {
+    ReactTooltip.show(inputRef.current)
+  }, [])
+
   return (
     <div>
       <Navbar color='dark' dark expand='md' className={className}>
@@ -44,9 +50,24 @@ const NavbarComponent = (props) => {
               </DropdownMenu>
             </UncontrolledDropdown> */}
           </Nav>
-          {/* <NavbarText>Simple Text</NavbarText> */}
+          <ReactTooltip
+            id='distance required'
+            effect='solid'
+            place='left'
+            type='light'
+            // backgroundColor='#fff'
+            textColor='#333'
+            // borderColor='blue'
+            offset={{ top: -15 }}
+          >
+            Nhập vào khoảng cách(KM), <br /> sau đó nhấn vào 1 điểm trên bảng đồ <br /> để tìm những
+            trường gần đó <br /> trong bán kính bạn vừa nhập
+          </ReactTooltip>
           <Input
             id='distance'
+            name='distance'
+            data-tip
+            data-for='distance required'
             bsSize='sm'
             type='number'
             placeholder='Nhập khoảng cách cần đo (KM)'
