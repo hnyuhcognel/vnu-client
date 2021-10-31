@@ -17,12 +17,18 @@ import SearchField from './Search/Search'
 import LocationMarker from './LocationMarker/LocationMarker'
 import axios from 'axios'
 import SchoolList from './SchoolList/SchoolList'
+import '../../leaflet/images/map-marker-2-32.png'
 
 function Maps(props) {
   const { distance } = props
   const icon = L.icon({
     iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
     iconAnchor: [12, 40],
+  })
+  const redIcon = L.icon({
+    iconUrl: 'https://chiangmaibuddy.com/wp-content/uploads/2015/12/1460972177-map_marker-red1.png',
+    iconAnchor: [18, 39],
+    iconSize: [34.5, 40],
   })
 
   const [data, setData] = useState({})
@@ -56,7 +62,7 @@ function Maps(props) {
         <SchoolList icon={icon} schoolList={schoolList} />
 
         <Minimap position='bottomright' zoom='9' />
-        <LocationMarker icon={icon} schoolList={schoolList} distance={distance} />
+        <LocationMarker icon={redIcon} schoolList={schoolList} distance={distance} />
       </MapContainer>
     </div>
   )

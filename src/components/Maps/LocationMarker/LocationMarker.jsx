@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { Marker, Polyline, Popup, useMapEvents } from 'react-leaflet'
+import { Marker, Polyline, Popup, Tooltip, useMapEvents } from 'react-leaflet'
 
 export default function LocationMarker(props) {
   const { icon, distance: distanceInput, schoolList } = props
-  console.log('LocationMarker ~ schoolList', schoolList)
   const [marker, setMarker] = useState()
 
   function getDistance(origin, destination) {
@@ -42,7 +41,6 @@ export default function LocationMarker(props) {
       let distance = getDistance(Object.values(marker), school.geometry.coordinates) / 1000
       if (distance <= distanceInput)
         polylines.push([Object.values(marker), school.geometry.coordinates])
-      console.log('distance ~ distance', distance)
     })
   }
 
