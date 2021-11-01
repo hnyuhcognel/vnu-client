@@ -10,25 +10,20 @@ function SideBar(props) {
     cityList,
     groupList,
     schoolList,
+    handleAreaChange,
     handleCityChange,
     handleGroupChange,
     handleSchoolChange,
+    areaValue,
     cityValue,
     groupValue,
     handleSearchSchool,
   } = props
-  const [areaValue, setAreaValue] = useState()
 
   return (
     <div className='school-search'>
       <p className='title'>Vietnamese's University</p>
-      <Input
-        id='area'
-        name='area'
-        type='select'
-        bsSize='sm'
-        onChange={(e) => setAreaValue(e.target.value)}
-      >
+      <Input id='area' name='area' type='select' bsSize='sm' onChange={handleAreaChange}>
         <option selected value='0'>
           Tất cả miền
         </option>

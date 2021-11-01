@@ -50,11 +50,15 @@ function HomePage(props) {
   const groupList = groupData
   const schoolList = schoolData.data
 
+  const [areaValue, setAreaValue] = useState()
   const [cityValue, setCityValue] = useState()
   const [groupValue, setGroupValue] = useState()
   const [schoolValue, setSchoolValue] = useState()
   const [schoolListSearch, setSchoolListSearch] = useState()
 
+  const handleAreaChange = (e) => {
+    setAreaValue(e.target.value)
+  }
   const handleCityChange = (e) => {
     setCityValue(e.target.value)
   }
@@ -69,15 +73,23 @@ function HomePage(props) {
     // console.log('search school 1', schoolListSearch)
     // console.log('school 1', schoolValue)
 
-    if (cityValue && groupValue && schoolValue) {
-      setSchoolListSearch(
-        schoolList.filter(
-          (school) =>
-            school.id_tinh == cityValue &&
-            school.id_nhom == groupValue &&
-            school.id_truong == schoolValue,
-        ),
-      )
+    // if (cityValue && groupValue && schoolValue) {
+    //   setSchoolListSearch(
+    //     schoolList.filter(
+    //       (school) =>
+    //         school.id_tinh == cityValue &&
+    //         school.id_nhom == groupValue &&
+    //         school.id_truong == schoolValue,
+    //     ),
+    //   )
+    //   return
+    // }
+    if (schoolValue) {
+      setSchoolListSearch(schoolList.filter((school) => school.id_truong == schoolValue))
+      return
+    }
+    if (areaValue && !cityValue) {
+      setSchoolListSearch(schoolList.filter((school) => school.id_mien == areaValue))
       return
     }
     if (cityValue && groupValue && !schoolValue) {
@@ -86,34 +98,34 @@ function HomePage(props) {
       )
       return
     }
-    if (cityValue && !groupValue && schoolValue) {
-      setSchoolListSearch(
-        schoolList.filter(
-          (school) => school.id_tinh == cityValue && school.id_truong == schoolValue,
-        ),
-      )
-      return
-    }
+    // if (cityValue && !groupValue && schoolValue) {
+    //   setSchoolListSearch(
+    //     schoolList.filter(
+    //       (school) => school.id_tinh == cityValue && school.id_truong == schoolValue,
+    //     ),
+    //   )
+    //   return
+    // }
     if (cityValue && !groupValue && !schoolValue) {
       setSchoolListSearch(schoolList.filter((school) => school.id_tinh == cityValue))
       return
     }
-    if (!cityValue && groupValue && schoolValue) {
-      setSchoolListSearch(
-        schoolList.filter(
-          (school) => school.id_nhom == groupValue && school.id_truong == schoolValue,
-        ),
-      )
-      return
-    }
+    // if (!cityValue && groupValue && schoolValue) {
+    //   setSchoolListSearch(
+    //     schoolList.filter(
+    //       (school) => school.id_nhom == groupValue && school.id_truong == schoolValue,
+    //     ),
+    //   )
+    //   return
+    // }
     if (!cityValue && groupValue && !schoolValue) {
       setSchoolListSearch(schoolList.filter((school) => school.id_nhom == groupValue))
       return
     }
-    if (!cityValue && !groupValue && schoolValue) {
-      setSchoolListSearch(schoolList.filter((school) => school.id_truong == schoolValue))
-      return
-    }
+    // if (!cityValue && !groupValue && schoolValue) {
+    //   setSchoolListSearch(schoolList.filter((school) => school.id_truong == schoolValue))
+    //   return
+    // }
   }
 
   return (
@@ -123,9 +135,11 @@ function HomePage(props) {
         cityList={cityList}
         groupList={groupList}
         schoolList={schoolList}
+        handleAreaChange={handleAreaChange}
         handleCityChange={handleCityChange}
         handleGroupChange={handleGroupChange}
         handleSchoolChange={handleSchoolChange}
+        areaValue={areaValue}
         cityValue={cityValue}
         groupValue={groupValue}
         handleSearchSchool={handleSearchSchool}
