@@ -2,4 +2,30 @@
   width: 25%;
   box-shadow: none;
   border-color: none;
+  background-color: #26413c;
+  border: 1px solid #e7e7e7;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  color: #e7e7e7;
+  appearance: auto;
+  box-shadow: none;
+  font-size: 16px;
+  text-align: center;
+  padding: 0;
+  &::placeholder {
+    color: #e7e7e7;
+    opacity: 0.5;
+  }
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.navbar-component.navbar.navbar-expand-md.navbar-dark.bg-dark {
+  background-color: #26413c !important;
+  height: 56px;
 }

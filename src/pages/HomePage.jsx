@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import Maps from '../components/Maps/Maps'
 import NavbarComponent from '../components/Navbar/Navbar'
 import SideBar from '../components/SideBar/SideBar'
@@ -11,12 +12,131 @@ function HomePage(props) {
     setInputValue(data)
   }
 
+  const [areaData, setAreaData] = useState()
+  const [cityData, setCityData] = useState()
+  const [groupData, setGroupData] = useState()
+  const [schoolData, setSchoolData] = useState({})
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios('http://localhost:8000/mien')
+      setAreaData(result.data)
+    }
+    fetchData()
+  }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios('http://localhost:8000/tinh')
+      setCityData(result.data)
+    }
+    fetchData()
+  }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios('http://localhost:8000/nhom')
+      setGroupData(result.data)
+    }
+    fetchData()
+  }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios('http://localhost:8000/truong')
+      setSchoolData(result.data)
+    }
+    fetchData()
+  }, [])
+  const areaList = areaData
+  const cityList = cityData
+  const groupList = groupData
+  const schoolList = schoolData.data
+
+  const [cityValue, setCityValue] = useState()
+  const [groupValue, setGroupValue] = useState()
+  const [schoolValue, setSchoolValue] = useState()
+  const [schoolListSearch, setSchoolListSearch] = useState()
+
+  const handleCityChange = (e) => {
+    setCityValue(e.target.value)
+  }
+  const handleGroupChange = (e) => {
+    setGroupValue(e.target.value)
+  }
+  const handleSchoolChange = (e) => {
+    setSchoolValue(e.target.value)
+  }
+
+  const handleSearchSchool = () => {
+    // console.log('search school 1', schoolListSearch)
+    // console.log('school 1', schoolValue)
+
+    if (cityValue && groupValue && schoolValue) {
+      setSchoolListSearch(
+        schoolList.filter(
+          (school) =>
+            school.id_tinh == cityValue &&
+            school.id_nhom == groupValue &&
+            school.id_truong == schoolValue,
+        ),
+      )
+      return
+    }
+    if (cityValue && groupValue && !schoolValue) {
+      setSchoolListSearch(
+        schoolList.filter((school) => school.id_tinh == cityValue && school.id_nhom == groupValue),
+      )
+      return
+    }
+    if (cityValue && !groupValue && schoolValue) {
+      setSchoolListSearch(
+        schoolList.filter(
+          (school) => school.id_tinh == cityValue && school.id_truong == schoolValue,
+        ),
+      )
+      return
+    }
+    if (cityValue && !groupValue && !schoolValue) {
+      setSchoolListSearch(schoolList.filter((school) => school.id_tinh == cityValue))
+      return
+    }
+    if (!cityValue && groupValue && schoolValue) {
+      setSchoolListSearch(
+        schoolList.filter(
+          (school) => school.id_nhom == groupValue && school.id_truong == schoolValue,
+        ),
+      )
+      return
+    }
+    if (!cityValue && groupValue && !schoolValue) {
+      setSchoolListSearch(schoolList.filter((school) => school.id_nhom == groupValue))
+      return
+    }
+    if (!cityValue && !groupValue && schoolValue) {
+      setSchoolListSearch(schoolList.filter((school) => school.id_truong == schoolValue))
+      return
+    }
+  }
+
   return (
     <div className='wrapper'>
-      <SideBar />
+      <SideBar
+        areaList={areaList}
+        cityList={cityList}
+        groupList={groupList}
+        schoolList={schoolList}
+        handleCityChange={handleCityChange}
+        handleGroupChange={handleGroupChange}
+        handleSchoolChange={handleSchoolChange}
+        cityValue={cityValue}
+        groupValue={groupValue}
+        handleSearchSchool={handleSearchSchool}
+      />
       <div className='map'>
         <NavbarComponent className='navbar-component' handleSetInputValue={handleSetInputValue} />
-        <Maps className='main-container' distance={inputValue} />
+        <Maps
+          className='main-container'
+          distance={inputValue}
+          schoolList={schoolListSearch || schoolList}
+        />
       </div>
     </div>
   )

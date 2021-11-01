@@ -17,10 +17,9 @@ import SearchField from './Search/Search'
 import LocationMarker from './LocationMarker/LocationMarker'
 import axios from 'axios'
 import SchoolList from './SchoolList/SchoolList'
-import '../../leaflet/images/map-marker-2-32.png'
 
 function Maps(props) {
-  const { distance } = props
+  const { distance, schoolList } = props
   const icon = L.icon({
     iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
     iconAnchor: [12, 40],
@@ -31,22 +30,11 @@ function Maps(props) {
     iconSize: [34.5, 40],
   })
 
-  const [data, setData] = useState({})
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios('http://localhost:8000/truong')
-      setData(result.data)
-    }
-    fetchData()
-  }, [])
-  const schoolList = data.features
-
   return (
     <div className='map-container'>
       <MapContainer
-        center={[10.030039333911489, 105.77070113153334]}
-        zoom={16}
+        center={[13.75922020532489, 109.21785730217843]}
+        zoom={5}
         scrollWheelZoom={true}
         // className='test'
       >
@@ -61,7 +49,7 @@ function Maps(props) {
         </LayersControl>
         <SchoolList icon={icon} schoolList={schoolList} />
 
-        <Minimap position='bottomright' zoom='9' />
+        <Minimap position='bottomright' zoom='4' />
         <LocationMarker icon={redIcon} schoolList={schoolList} distance={distance} />
       </MapContainer>
     </div>

@@ -28,7 +28,7 @@ export default function LocationMarker(props) {
   const map = useMapEvents({
     click(e) {
       if (!distanceInput) {
-        alert('Vui lòng nhập khoảng cách')
+        alert('Vui lòng nhập bán kính ')
         return
       }
       const newMarker = e.latlng
@@ -38,9 +38,9 @@ export default function LocationMarker(props) {
   var polylines = []
   const distanceAround = () => {
     schoolList.forEach((school) => {
-      let distance = getDistance(Object.values(marker), school.geometry.coordinates) / 1000
+      let distance = getDistance(Object.values(marker), [school.long, school.lat]) / 1000
       if (distance <= distanceInput)
-        polylines.push([Object.values(marker), school.geometry.coordinates])
+        polylines.push([Object.values(marker), [school.long, school.lat]])
     })
   }
 

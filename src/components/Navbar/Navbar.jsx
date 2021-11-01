@@ -28,28 +28,35 @@ const NavbarComponent = (props) => {
   return (
     <div>
       <Navbar color='dark' dark expand='md' className={className}>
-        <NavbarBrand href='/'>Vietnamese's University</NavbarBrand>
+        {/* <NavbarBrand href='/'>aaaaaaaaaaaaa</NavbarBrand> */}
         <NavbarToggler onClick={function noRefCheck() {}} />
         <Collapse navbar>
-          <Nav className='me-auto' navbar>
-            {/* <NavItem>
-              <NavLink href='/components/'>Components</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href='https://github.com/reactstrap/reactstrap'>GitHub</NavLink>
-            </NavItem>
-            <UncontrolledDropdown inNavbar nav>
-              <DropdownToggle caret nav>
-                Options
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown> */}
-          </Nav>
+          <Nav className='me-auto' navbar></Nav>
+          {/* <Input id='area' name='area' type='select' bsSize='sm'>
+            <option selected>Tất cả miền</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </Input>
+          <Input id='city' name='city' type='select' bsSize='sm'>
+            <option selected>Tất cả tỉnh</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </Input>
+          <Input id='group' name='group' type='select' bsSize='sm'>
+            <option selected>Tất cả nhóm</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </Input>
+          <Input bsSize='sm' id='school' name='school' placeholder='Tên trường...' /> */}
           <ReactTooltip
             id='distance required'
             effect='solid'
@@ -70,7 +77,7 @@ const NavbarComponent = (props) => {
             data-for='distance required'
             bsSize='sm'
             type='number'
-            placeholder='Nhập khoảng cách cần đo (KM)'
+            placeholder='Bán kính cần đo (KM)'
             onInput={(e) => handleSetInputValue(e.target.value)}
           />
         </Collapse>
