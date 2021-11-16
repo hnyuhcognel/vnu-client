@@ -24,7 +24,7 @@ function SideBar(props) {
     <div className='school-search'>
       <p className='title'>Vietnamese's University</p>
       <Input id='area' name='area' type='select' bsSize='sm' onChange={handleAreaChange}>
-        <option selected value='0'>
+        <option selected value=''>
           Tất cả miền
         </option>
         {areaList &&
@@ -35,7 +35,7 @@ function SideBar(props) {
           ))}
       </Input>
       <Input id='city' name='city' type='select' bsSize='sm' onChange={handleCityChange}>
-        <option selected value='0'>
+        <option selected value=''>
           Tất cả tỉnh
         </option>
         {cityList &&
@@ -57,7 +57,7 @@ function SideBar(props) {
           })}
       </Input>
       <Input id='group' name='group' type='select' bsSize='sm' onChange={handleGroupChange}>
-        <option selected value='0'>
+        <option selected value=''>
           Tất cả nhóm
         </option>
         {groupList &&
@@ -68,7 +68,7 @@ function SideBar(props) {
           ))}
       </Input>
       <Input id='school' name='school' type='select' bsSize='sm' onChange={handleSchoolChange}>
-        <option selected value='0'>
+        <option selected value=''>
           Tất cả trường
         </option>
         {schoolList &&

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React from 'react'
 import { Marker, Tooltip } from 'react-leaflet'
 
 export default function SchoolList(props) {

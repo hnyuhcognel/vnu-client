@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Maps from '../components/Maps/Maps'
 import NavbarComponent from '../components/Navbar/Navbar'
 import SideBar from '../components/SideBar/SideBar'
+import '../../node_modules/leaflet-draw/dist/leaflet.draw.css'
 import './styles.scss'
 
 function HomePage(props) {
@@ -40,7 +41,7 @@ function HomePage(props) {
   }, [])
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios('http://localhost:8000/truong')
+      const result = await axios(`http://localhost:8000/truong`)
       setSchoolData(result.data)
     }
     fetchData()
@@ -50,14 +51,15 @@ function HomePage(props) {
   const groupList = groupData
   const schoolList = schoolData.data
 
-  const [areaValue, setAreaValue] = useState()
-  const [cityValue, setCityValue] = useState()
-  const [groupValue, setGroupValue] = useState()
-  const [schoolValue, setSchoolValue] = useState()
+  const [areaValue, setAreaValue] = useState('')
+  const [cityValue, setCityValue] = useState('')
+  const [groupValue, setGroupValue] = useState('')
+  const [schoolValue, setSchoolValue] = useState('')
   const [schoolListSearch, setSchoolListSearch] = useState()
 
   const handleAreaChange = (e) => {
     setAreaValue(e.target.value)
+    console.log(areaValue)
   }
   const handleCityChange = (e) => {
     setCityValue(e.target.value)
@@ -70,62 +72,41 @@ function HomePage(props) {
   }
 
   const handleSearchSchool = () => {
-    // console.log('search school 1', schoolListSearch)
-    // console.log('school 1', schoolValue)
-
-    // if (cityValue && groupValue && schoolValue) {
-    //   setSchoolListSearch(
-    //     schoolList.filter(
-    //       (school) =>
-    //         school.id_tinh == cityValue &&
-    //         school.id_nhom == groupValue &&
-    //         school.id_truong == schoolValue,
-    //     ),
-    //   )
-    //   return
-    // }
     if (schoolValue) {
       setSchoolListSearch(schoolList.filter((school) => school.id_truong == schoolValue))
       return
     }
+
+    if (!areaValue && !cityValue && !groupValue && !schoolValue) {
+      setSchoolListSearch(schoolList)
+      return
+    }
+
     if (areaValue && !cityValue) {
       setSchoolListSearch(schoolList.filter((school) => school.id_mien == areaValue))
       return
     }
+
     if (cityValue && groupValue && !schoolValue) {
       setSchoolListSearch(
         schoolList.filter((school) => school.id_tinh == cityValue && school.id_nhom == groupValue),
       )
       return
     }
-    // if (cityValue && !groupValue && schoolValue) {
-    //   setSchoolListSearch(
-    //     schoolList.filter(
-    //       (school) => school.id_tinh == cityValue && school.id_truong == schoolValue,
-    //     ),
-    //   )
-    //   return
-    // }
     if (cityValue && !groupValue && !schoolValue) {
       setSchoolListSearch(schoolList.filter((school) => school.id_tinh == cityValue))
       return
     }
-    // if (!cityValue && groupValue && schoolValue) {
-    //   setSchoolListSearch(
-    //     schoolList.filter(
-    //       (school) => school.id_nhom == groupValue && school.id_truong == schoolValue,
-    //     ),
-    //   )
-    //   return
-    // }
     if (!cityValue && groupValue && !schoolValue) {
       setSchoolListSearch(schoolList.filter((school) => school.id_nhom == groupValue))
       return
     }
-    // if (!cityValue && !groupValue && schoolValue) {
-    //   setSchoolListSearch(schoolList.filter((school) => school.id_truong == schoolValue))
-    //   return
-    // }
+  }
+
+  const [isFindByDistance, setIsFindByDistance] = useState(true)
+  const handleFindByDistance = () => {
+    setIsFindByDistance(!isFindByDistance)
+    setInputValue('')
   }
 
   return (
@@ -145,10 +126,17 @@ function HomePage(props) {
         handleSearchSchool={handleSearchSchool}
       />
       <div className='map'>
-        <NavbarComponent className='navbar-component' handleSetInputValue={handleSetInputValue} />
+        <NavbarComponent
+          className='navbar-component'
+          handleSetInputValue={handleSetInputValue}
+          handleFindByDistance={handleFindByDistance}
+          isFindByDistance={isFindByDistance}
+        />
         <Maps
           className='main-container'
           distance={inputValue}
+          isFindByDistance={isFindByDistance}
+          handleFindByDistance={handleFindByDistance}
           schoolList={schoolListSearch || schoolList}
         />
       </div>

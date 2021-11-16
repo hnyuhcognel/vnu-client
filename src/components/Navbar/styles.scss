@@ -1,5 +1,6 @@
 #distance {
-  width: 25%;
+  margin: 5px 10px 0 0;
+  width: 20%;
   box-shadow: none;
   border-color: none;
   background-color: #26413c;
@@ -28,4 +29,26 @@
 .navbar-component.navbar.navbar-expand-md.navbar-dark.bg-dark {
   background-color: #26413c !important;
   height: 56px;
+}
+#submit__button {
+  font-size: 16px;
+  height: 40px;
+  // width: 120px;
+  // margin-top: 10px;
+  font-weight: 600;
+  background-color: #26413c;
+  color: #e7e7e7;
+  border: #e7e7e7 2px solid;
+  outline: none;
+  box-shadow: none;
+  &:hover {
+    background-color: #e7e7e7;
+    color: #26413c;
+    // border: #26413c 1px solid;
+  }
+  &:active {
+    border: #c0bebe 2px solid;
+    background-color: #c0bebe;
+    transition: all 0.3s ease;
+  }
 }

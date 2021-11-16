@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Marker, Polyline, Popup, Tooltip, useMapEvents } from 'react-leaflet'
+import { Marker, Polyline, useMapEvents } from 'react-leaflet'
 
 export default function LocationMarker(props) {
-  const { icon, distance: distanceInput, schoolList } = props
+  const { icon, distance: distanceInput, schoolList, isFindByDistance } = props
   const [marker, setMarker] = useState()
 
   function getDistance(origin, destination) {
@@ -27,8 +27,12 @@ export default function LocationMarker(props) {
 
   const map = useMapEvents({
     click(e) {
-      if (!distanceInput) {
+      if (!isFindByDistance) {
+        return
+      }
+      if (distanceInput === '') {
         alert('Vui lòng nhập bán kính ')
+        setMarker(null)
         return
       }
       const newMarker = e.latlng
@@ -48,7 +52,7 @@ export default function LocationMarker(props) {
 
   return (
     <>
-      {marker && <Marker position={marker} icon={icon}></Marker>}
+      {isFindByDistance && marker && <Marker position={marker} icon={icon}></Marker>}
       {marker &&
         polylines.map((polyline) => (
           <Polyline pathOptions={{ color: 'red' }} positions={polyline} weight='1' />
