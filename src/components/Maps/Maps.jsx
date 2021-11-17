@@ -72,7 +72,10 @@ function Maps(props) {
         })
       const result2 = await axios
         .get('http://localhost:8000/khac')
-        .then((results) => setListDrawData(results.data))
+        .then((result) => {
+          // console.log(result.data)
+          setListDrawData(result.data)
+        })
         .catch((err) => console.log(err))
     }
     fetchData()

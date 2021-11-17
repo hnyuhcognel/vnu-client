@@ -18,15 +18,13 @@ export default function Draw(props) {
           mota: drawData.properties.mota,
           toado: drawData.geometry.coordinates,
         })
-      }
-      if (drawData.geometry.type === 'LineString') {
+      } else if (drawData.geometry.type === 'LineString') {
         polylines.push({
           id: drawData.properties.id,
           mota: drawData.properties.mota,
           toado: drawData.geometry.coordinates,
         })
-      }
-      if (drawData.geometry.type === 'Polygon') {
+      } else if (drawData.geometry.type === 'Polygon') {
         polygons.push({
           id: drawData.properties.id,
           mota: drawData.properties.mota,
@@ -34,6 +32,8 @@ export default function Draw(props) {
         })
       }
     }
+    console.log(polylines[0])
+    console.log('polygon', polygons)
   }
 
   const [isEditDescription, setIsEditDescription] = useState(false)
@@ -114,7 +114,7 @@ export default function Draw(props) {
         polylines.map(
           (polyline, index) =>
             !listIsDeleted[polyline.id] && (
-              <Polyline position={polyline.toado} icon={icon} key={index}>
+              <Polyline positions={polyline.toado} icon={icon} key={index}>
                 <Popup>
                   {!isEditDescription &&
                     (justUpdated ? (
@@ -138,11 +138,6 @@ export default function Draw(props) {
                     <Button onClick={() => handleSaveBtn(polyline.id)}>Lưu</Button>
                   )}
                   {isEditDescription && <Button onClick={handleCancelBtn}>Hủy</Button>}
-                  {/* {!isEditDraw && !isEditDescription && (
-              <Button onClick={handleEditDrawBtn}>Sửa điểm</Button>
-            )}
-            {isEditDraw && <Button onClick={handleSaveDrawBtn}>Lưu</Button>}
-            {isEditDraw && <Button onClick={handleCancelDrawBtn}>Hủy</Button>} */}
                   <Button onClick={() => handleDeleteBtn(polyline.id)}>Xóa điểm</Button>
                 </Popup>
               </Polyline>
@@ -152,7 +147,7 @@ export default function Draw(props) {
         polygons.map(
           (polygon, index) =>
             !listIsDeleted[polygon.id] && (
-              <Polygon position={polygon.toado} icon={icon} key={index}>
+              <Polygon positions={polygon.toado} icon={icon} key={index}>
                 <Popup>
                   {!isEditDescription &&
                     (justUpdated ? (
@@ -176,11 +171,6 @@ export default function Draw(props) {
                     <Button onClick={() => handleSaveBtn(polygon.id)}>Lưu</Button>
                   )}
                   {isEditDescription && <Button onClick={handleCancelBtn}>Hủy</Button>}
-                  {/* {!isEditDraw && !isEditDescription && (
-              <Button onClick={handleEditDrawBtn}>Sửa điểm</Button>
-            )}
-            {isEditDraw && <Button onClick={handleSaveDrawBtn}>Lưu</Button>}
-            {isEditDraw && <Button onClick={handleCancelDrawBtn}>Hủy</Button>} */}
                   <Button onClick={() => handleDeleteBtn(polygon.id)}>Xóa điểm</Button>
                 </Popup>
               </Polygon>
