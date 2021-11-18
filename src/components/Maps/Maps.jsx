@@ -66,7 +66,9 @@ function Maps(props) {
     const fetchData = async () => {
       const result1 = await axios
         .post('http://localhost:8000/khac', drawData)
-        .then(() => console.log('Draw saved'))
+        .then(() => {
+          console.log('Draw saved')
+        })
         .catch((err) => {
           console.error(err)
         })
@@ -101,8 +103,12 @@ function Maps(props) {
           <EditControl
             position='topleft'
             onDrawStart={handleFindByDistance}
-            onCreated={(e) => handleLine(e)}
-            // onCreated={(e) => console.log(e)}
+            // onCreated={(e) => handleLine(e)}
+            onCreated={async (e) => {
+              const save = await handleLine(e)
+              const deleteLayer = await e.layer.remove()
+              const confirm = await console.log('del layer')
+            }}
             edit={{ edit: false, remove: false }}
             draw={{ marker: { icon: icon }, circle: false, circlemarker: false }}
           />

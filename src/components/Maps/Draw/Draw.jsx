@@ -32,8 +32,6 @@ export default function Draw(props) {
         })
       }
     }
-    console.log(polylines[0])
-    console.log('polygon', polygons)
   }
 
   const [isEditDescription, setIsEditDescription] = useState(false)
@@ -131,14 +129,16 @@ export default function Draw(props) {
                       onInput={(e) => setDescriptionValue(e.target.value)}
                     />
                   )}
-                  {!isEditDescription && (
-                    <Button onClick={() => handleEditBtn(polyline.mota)}>Sửa mô tả</Button>
-                  )}
-                  {isEditDescription && (
-                    <Button onClick={() => handleSaveBtn(polyline.id)}>Lưu</Button>
-                  )}
-                  {isEditDescription && <Button onClick={handleCancelBtn}>Hủy</Button>}
-                  <Button onClick={() => handleDeleteBtn(polyline.id)}>Xóa điểm</Button>
+                  <div className='btn--container'>
+                    {!isEditDescription && (
+                      <Button onClick={() => handleEditBtn(polyline.mota)}>Sửa mô tả</Button>
+                    )}
+                    {isEditDescription && (
+                      <Button onClick={() => handleSaveBtn(polyline.id)}>Lưu</Button>
+                    )}
+                    {isEditDescription && <Button onClick={handleCancelBtn}>Hủy</Button>}
+                    <Button onClick={() => handleDeleteBtn(polyline.id)}>Xóa đường</Button>
+                  </div>
                 </Popup>
               </Polyline>
             ),
@@ -164,14 +164,16 @@ export default function Draw(props) {
                       onInput={(e) => setDescriptionValue(e.target.value)}
                     />
                   )}
-                  {!isEditDescription && (
-                    <Button onClick={() => handleEditBtn(polygon.mota)}>Sửa mô tả</Button>
-                  )}
-                  {isEditDescription && (
-                    <Button onClick={() => handleSaveBtn(polygon.id)}>Lưu</Button>
-                  )}
-                  {isEditDescription && <Button onClick={handleCancelBtn}>Hủy</Button>}
-                  <Button onClick={() => handleDeleteBtn(polygon.id)}>Xóa điểm</Button>
+                  <div className='btn--container'>
+                    {!isEditDescription && (
+                      <Button onClick={() => handleEditBtn(polygon.mota)}>Sửa mô tả</Button>
+                    )}
+                    {isEditDescription && (
+                      <Button onClick={() => handleSaveBtn(polygon.id)}>Lưu</Button>
+                    )}
+                    {isEditDescription && <Button onClick={handleCancelBtn}>Hủy</Button>}
+                    <Button onClick={() => handleDeleteBtn(polygon.id)}>Xóa vùng</Button>
+                  </div>
                 </Popup>
               </Polygon>
             ),
