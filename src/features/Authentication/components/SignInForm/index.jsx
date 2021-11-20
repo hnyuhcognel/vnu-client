@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { FastField, Form, Formik } from 'formik'
 import React from 'react'
 import * as Yup from 'yup'
@@ -5,7 +6,7 @@ import InputField from '../../../../custom-fields/InputField'
 import './styles.scss'
 
 export default function SignInForm(props) {
-  const { initialValues, handleSign } = props
+  const { initialValues, handleSign, handleIsSignedIn } = props
   const validationSchema = Yup.object().shape({
     signInUsername: Yup.string()
       .matches(/([A-Z]|[a-z]|\.|\_)\w+/g, {
@@ -20,8 +21,32 @@ export default function SignInForm(props) {
       .max(32, 'Mật khẩu chỉ có thể có tối đa 32 ký tự!')
       .required('Vui lòng nhập mật khẩu!'),
   })
+
+  const handleSignInSubmit = async (values, actions) => {
+    try {
+      const result = await axios.post('http://localhost:8000/taikhoan/dangnhap', {
+        username: values.signInUsername,
+        password: values.signInPassword,
+      })
+      handleIsSignedIn()
+      console.log(result.data.token)
+      localStorage.setItem('token', result.data.token)
+    } catch (error) {
+      if (error.response.data.fail === 'username hoac password khong chinh xac') {
+        actions.setErrors({
+          signInUsername: 'Tài khoản hoặc mật khẩu không chính xác!',
+          signInPassword: ' ',
+        })
+      }
+    }
+  }
+
   return (
-    <Formik initialValues={initialValues} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSignInSubmit}
+    >
       {(formikProps) => {
         const { values, errors, touched, isSubmitting } = formikProps
         return (
@@ -33,7 +58,7 @@ export default function SignInForm(props) {
               type='password'
               placeholder='Mật khẩu'
             />
-            <button className='myBtn' color='primary'>
+            <button className='myBtn' color='primary' type='submit'>
               Đăng nhập
             </button>
             {/* <a href=''>Quên mật khẩu?</a> */}

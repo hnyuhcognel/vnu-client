@@ -5,8 +5,10 @@ import NavbarComponent from '../components/Navbar/Navbar'
 import SideBar from '../components/SideBar/SideBar'
 import '../../node_modules/leaflet-draw/dist/leaflet.draw.css'
 import './styles.scss'
+import { Navigate } from 'react-router-dom'
 
 function HomePage(props) {
+  const { isSignedIn, handleIsSignedOut } = props
   const [inputValue, setInputValue] = useState('')
 
   const handleSetInputValue = (data) => {
@@ -109,6 +111,12 @@ function HomePage(props) {
     setInputValue('')
   }
 
+  const [isDrawing, setIsDrawing] = useState(false)
+  const handleIsDrawing = (bool) => {
+    setIsDrawing(bool)
+    console.log('handleIsDrawing ~ isDrawing', isDrawing)
+  }
+
   return (
     <div className='wrapper'>
       <SideBar
@@ -124,13 +132,20 @@ function HomePage(props) {
         cityValue={cityValue}
         groupValue={groupValue}
         handleSearchSchool={handleSearchSchool}
+        handleFindByDistance={handleFindByDistance}
+        isFindByDistance={isFindByDistance}
+        handleSetInputValue={handleSetInputValue}
+        isDrawing={isDrawing}
+        // handleIsDrawing={handleIsDrawing}
       />
       <div className='map'>
         <NavbarComponent
           className='navbar-component'
-          handleSetInputValue={handleSetInputValue}
-          handleFindByDistance={handleFindByDistance}
-          isFindByDistance={isFindByDistance}
+          // handleSetInputValue={handleSetInputValue}
+          // handleFindByDistance={handleFindByDistance}
+          // isFindByDistance={isFindByDistance}
+          handleIsSignedOut={handleIsSignedOut}
+          isSignedIn={isSignedIn}
         />
         <Maps
           className='main-container'
@@ -138,6 +153,7 @@ function HomePage(props) {
           isFindByDistance={isFindByDistance}
           handleFindByDistance={handleFindByDistance}
           schoolList={schoolListSearch || schoolList}
+          handleIsDrawing={handleIsDrawing}
         />
       </div>
     </div>

@@ -58,6 +58,62 @@
       transition: all 0.3s ease;
     }
   }
+
+  #distance {
+    margin: auto;
+    width: 85%;
+    background-color: #26413c;
+    border: 1px solid #e7e7e7;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    color: #e7e7e7;
+    appearance: auto;
+    box-shadow: none;
+    font-size: 16px;
+    text-align: center;
+    padding: 0;
+    &::placeholder {
+      color: #e7e7e7;
+      opacity: 0.5;
+    }
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+  hr {
+    color: #e7e7e7;
+  }
+  .find-school-by-distance {
+    // margin-top: 100px;
+    #find-school-by-distance__btn {
+      margin: auto;
+      font-size: 16px;
+      height: 40px;
+      // width: 120px;
+      margin-top: 10px;
+      font-weight: 600;
+      background-color: #26413c;
+      color: #e7e7e7;
+      border: #e7e7e7 2px solid;
+      outline: none;
+      box-shadow: none;
+      margin-left: calc((260px - 214.75px) / 2);
+      &:hover {
+        background-color: #e7e7e7;
+        color: #26413c;
+        // border: #26413c 1px solid;
+      }
+      &:active {
+        border: #c0bebe 2px solid;
+        background-color: #c0bebe;
+        transition: all 0.3s ease;
+      }
+    }
+  }
 }
 
 option {

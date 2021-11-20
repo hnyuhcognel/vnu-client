@@ -1,6 +1,7 @@
 // Be sure to include styles at some point, probably during your bootstraping
 import '@trendmicro/react-sidenav/dist/react-sidenav.css'
 import React, { useState } from 'react'
+import ReactTooltip from 'react-tooltip'
 import { Button, Input } from 'reactstrap'
 import './styles.scss'
 
@@ -18,7 +19,13 @@ function SideBar(props) {
     cityValue,
     groupValue,
     handleSearchSchool,
+    isFindByDistance,
+    handleFindByDistance,
+    handleSetInputValue,
+    // handleIsDrawing,
+    isDrawing,
   } = props
+  console.log('SideBar ~ isDrawing', isDrawing)
 
   return (
     <div className='school-search'>
@@ -116,6 +123,50 @@ function SideBar(props) {
       <Button id='submit__button' color='primary' size='' onClick={handleSearchSchool}>
         Tìm trường
       </Button>
+      <hr />
+      <div className='find-school-by-distance'>
+        <ReactTooltip
+          id='distance required'
+          effect='solid'
+          place='left'
+          type='light'
+          // backgroundColor='#fff'
+          textColor='#333'
+          // borderColor='blue'
+          offset={{ top: -15 }}
+        >
+          Nhập vào khoảng cách(KM), <br /> sau đó nhấn vào 1 điểm trên bảng đồ <br /> để tìm những
+          trường gần đó <br /> trong bán kính bạn vừa nhập
+        </ReactTooltip>
+        {isFindByDistance && (
+          <Input
+            id='distance'
+            name='distance'
+            data-tip
+            data-for='distance required'
+            bsSize='sm'
+            type='number'
+            placeholder='Bán kính cần đo (KM)'
+            onInput={(e) => handleSetInputValue(e.target.value)}
+          />
+        )}
+        {!isFindByDistance && (
+          <Button
+            id='find-school-by-distance__btn'
+            onClick={() => {
+              console.log(isDrawing)
+              !isDrawing && handleFindByDistance()
+            }}
+          >
+            Tìm trường theo bán kính
+          </Button>
+        )}
+        {isFindByDistance && (
+          <Button id='submit__button' onClick={handleFindByDistance}>
+            Hủy
+          </Button>
+        )}
+      </div>
     </div>
   )
 }

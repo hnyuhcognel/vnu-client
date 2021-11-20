@@ -12,7 +12,7 @@ import SearchField from './Search/Search'
 import './styles.scss'
 
 function Maps(props) {
-  const { distance, schoolList, handleFindByDistance, isFindByDistance } = props
+  const { distance, schoolList, handleFindByDistance, isFindByDistance, handleIsDrawing } = props
   const icon = L.icon({
     iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
     iconAnchor: [12, 40],
@@ -102,13 +102,17 @@ function Maps(props) {
         <FeatureGroup>
           <EditControl
             position='topleft'
-            onDrawStart={handleFindByDistance}
+            onDrawStart={() => {
+              handleIsDrawing(true)
+              handleFindByDistance()
+            }}
             // onCreated={(e) => handleLine(e)}
             onCreated={async (e) => {
               const save = await handleLine(e)
               const deleteLayer = await e.layer.remove()
               const confirm = await console.log('del layer')
             }}
+            onDrawStop={() => handleIsDrawing(false)}
             edit={{ edit: false, remove: false }}
             draw={{ marker: { icon: icon }, circle: false, circlemarker: false }}
           />

@@ -8,20 +8,18 @@ import './styles.scss'
 export default function SignUnForm(props) {
   const { initialValues, handleSign } = props
 
-  const [isExistedUser, setIsExistedUser] = useState()
-
-  Yup.addMethod(Yup.string, 'checkUsername', function (msg, existed) {
-    return this.test('checkUsername', msg, function (value) {
-      const { path, createError } = this
-      if (existed) {
-        return createError({
-          path,
-          message: msg,
-        })
-      }
-      return true
-    })
-  })
+  // Yup.addMethod(Yup.string, 'checkUsername', function (msg, existed) {
+  //   return this.test('checkUsername', msg, function (value) {
+  //     const { path, createError } = this
+  //     if (existed) {
+  //       return createError({
+  //         path,
+  //         message: msg,
+  //       })
+  //     }
+  //     return true
+  //   })
+  // })
 
   const validationSchema = Yup.object().shape({
     signUpHo: Yup.string(),
@@ -32,8 +30,7 @@ export default function SignUnForm(props) {
       })
       .min(5, 'Tên tài khoản phải có ít nhất 5 ký tự!')
       .max(32, 'Tên tài khoản chỉ có thể có tối đa 32 ký tự!')
-      .required('Vui lòng nhập tên tài khoản!')
-      .checkUsername('Tên tài khoản đã tồn tại!', isExistedUser),
+      .required('Vui lòng nhập tên tài khoản!'),
     signUpPassword: Yup.string()
       .matches(/[.^\S]/g, { message: 'Mật khẩu không được có khoảng trắng' })
       .min(5, 'Mật khẩu phải có ít nhất 5 ký tự!')
@@ -44,8 +41,6 @@ export default function SignUnForm(props) {
       .required('Vui lòng xác nhận mật khẩu!'),
   })
 
-  // const { submitForm } = useFormikContext()
-
   const handleSignUpSubmit = async (values, actions) => {
     try {
       const result = await axios.post('http://localhost:8000/taikhoan/dangky', {
@@ -54,14 +49,12 @@ export default function SignUnForm(props) {
         ho: values.signUpHo,
         ten: values.signUpTen,
       })
-      setIsExistedUser(false)
+      alert('Đăng ký thành công!')
+      handleSign()
       console.log(result)
     } catch (error) {
       if (error.response.data.fail == 'tai khoan da ton tai') {
-        actions.setErrors({ signUpUsername: 'username đã tồn tại' })
-        actions.setTouched({ signUpUsername: false })
-        setIsExistedUser(true)
-        // submitForm()
+        actions.setErrors({ signUpUsername: 'Tên tài khoản đã tồn tại!' })
       }
     }
   }
