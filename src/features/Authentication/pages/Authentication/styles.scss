@@ -1,0 +1,11 @@
+.main {
+  height: 100vh;
+  background-color: #f0f2f5;
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  .introduction {
+    width: 40%;
+  }
+}

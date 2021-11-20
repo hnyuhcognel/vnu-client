@@ -9,6 +9,7 @@
     margin: 0;
     border-bottom: 1px solid #e7e7e7;
     font-family: helvetica, arial, sans-serif;
+    text-align: center;
   }
   #area,
   #city,
@@ -45,6 +46,7 @@
     border: #e7e7e7 2px solid;
     outline: none;
     box-shadow: none;
+    margin-left: calc((260px - 120px) / 2);
     &:hover {
       background-color: #e7e7e7;
       color: #26413c;

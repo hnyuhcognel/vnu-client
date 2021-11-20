@@ -1,0 +1,31 @@
+.form-group {
+  padding: 6px 0;
+  .input {
+    padding: 14px 16px;
+    font-size: 17px;
+    border-radius: 6px;
+    border: 1px solid #dddfe2;
+    color: #1d2129;
+    width: 364px;
+
+    ::placeholder {
+      color: #90a1c6;
+    }
+    &:focus {
+      border-color: #1877f2;
+      // box-shadow: none;
+      box-shadow: 0 0 0 2px #e7f3ff;
+      caret-color: #1877f2;
+    }
+  }
+  .is-invalid {
+    background-image: none;
+    border-color: #dc3545;
+  }
+}
+
+.input.is-invalid.form-control {
+  &:focus {
+    box-shadow: 0 0 0 2px #e7f3ff;
+  }
+}
