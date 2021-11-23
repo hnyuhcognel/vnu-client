@@ -114,6 +114,10 @@
       }
     }
   }
+  .toggle-modal#submit__button {
+    width: 130px;
+    margin-left: calc((260px - 130px) / 2);
+  }
 }
 
 option {

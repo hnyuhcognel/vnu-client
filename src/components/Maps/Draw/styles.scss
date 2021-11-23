@@ -6,6 +6,7 @@
 
 .leaflet-popup-content-wrapper {
   .leaflet-popup-content {
+    font-family: Roboto;
     width: 222px;
     p {
       font-size: 16px;
@@ -18,7 +19,6 @@
       button {
         font-size: 16px;
         height: 40px;
-        font-weight: 600;
         background-color: #26413c;
         color: #e7e7e7;
         // border: #e7e7e7 2px solid;

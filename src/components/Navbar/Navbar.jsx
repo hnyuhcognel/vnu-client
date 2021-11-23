@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
-import ReactTooltip from 'react-tooltip'
-import { Button, Collapse, Input, Nav, Navbar, NavbarToggler } from 'reactstrap'
-import './styles.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import jwt_decode from 'jwt-decode'
+import React from 'react'
 import { Navigate } from 'react-router-dom'
+import ReactTooltip from 'react-tooltip'
+import { Button, Collapse, Nav, Navbar } from 'reactstrap'
+import './styles.scss'
 
 const NavbarComponent = (props) => {
   const { className, isSignedIn, handleIsSignedOut } = props
@@ -11,7 +14,8 @@ const NavbarComponent = (props) => {
     ReactTooltip.show(inputRef.current)
   }, [])
 
-  // const [isSignedOut, setIsSignedOut] = useState(false)
+  const token = localStorage.getItem('token')
+  const tokenDecoded = jwt_decode(token)
 
   return (
     <>
@@ -20,9 +24,13 @@ const NavbarComponent = (props) => {
       ) : (
         <div>
           <Navbar color='dark' dark expand='md' className={className}>
-            <NavbarToggler onClick={function noRefCheck() {}} />
+            {/* <NavbarToggler onClick={function noRefCheck() {}} /> */}
             <Collapse navbar>
               <Nav className='me-auto' navbar></Nav>
+              <FontAwesomeIcon className='user-icon' icon={faUser} />
+              <p className='display-username'>
+                {tokenDecoded.ten} {tokenDecoded.ho}
+              </p>
               <Button
                 id='submit__button'
                 onClick={() => {

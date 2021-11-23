@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import Footer from '../../components/Footer'
-import Introduction from '../../components/Introduction'
 import SignInForm from '../../components/SignInForm'
 import SignUpForm from '../../components/SignUpForm'
 import './styles.scss'

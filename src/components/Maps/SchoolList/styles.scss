@@ -1,0 +1,95 @@
+.school-popup {
+  // width: 500px;
+  font-family: Roboto;
+
+  .leaflet-popup-content-wrapper {
+    .leaflet-popup-content {
+      width: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .school-title {
+        font-size: 18px;
+        margin: 0;
+        color: #26413c;
+      }
+    }
+  }
+
+  .rated-star {
+    font-size: 50px;
+    display: flex;
+    margin: 10px 0;
+    svg {
+      margin: 5px;
+      color: #ffdf00;
+    }
+    .average-star {
+      margin: 0;
+      color: #26413c;
+      font-size: 60px;
+      line-height: 60px;
+    }
+  }
+
+  .school__button--container {
+    display: flex;
+    justify-content: space-around;
+    width: 360px;
+    margin-bottom: 5px;
+    button {
+      font-size: 16px;
+      height: 40px;
+      // font-weight: 600;
+      background-color: #26413c;
+      color: #e7e7e7;
+      // border: #e7e7e7 2px solid;
+      outline: none;
+      box-shadow: none;
+      margin: 5px 3px;
+      &:hover {
+        background-color: #e7e7e7;
+        color: #26413c;
+        // border: #26413c 1px solid;
+      }
+      &:active {
+        border: #c0bebe 2px solid;
+        background-color: #c0bebe;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+  .send-stars {
+    button {
+      background-color: white;
+      color: #ffdf00;
+      border: none;
+      font-size: 30px;
+      &:focus {
+        box-shadow: none;
+      }
+      &:active {
+        transform: scale(0.8);
+        transition: all ease-in 0.2s;
+      }
+    }
+  }
+
+  .send-comment {
+    width: 95%;
+    textarea {
+      margin-bottom: 5px;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+    label {
+      margin-bottom: 5px;
+      font-size: 17px;
+    }
+    input {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+  }
+}

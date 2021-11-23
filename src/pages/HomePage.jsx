@@ -6,6 +6,7 @@ import SideBar from '../components/SideBar/SideBar'
 import '../../node_modules/leaflet-draw/dist/leaflet.draw.css'
 import './styles.scss'
 import { Navigate } from 'react-router-dom'
+import AddSchoolModal from '../components/AddSchoolModal/AddSchoolModal'
 
 function HomePage(props) {
   const { isSignedIn, handleIsSignedOut } = props
@@ -43,8 +44,12 @@ function HomePage(props) {
   }, [])
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios(`http://localhost:8000/truong`)
-      setSchoolData(result.data)
+      try {
+        const result = await axios(`http://localhost:8000/truong`)
+        setSchoolData(result.data)
+      } catch (error) {
+        console.log(error)
+      }
     }
     fetchData()
   }, [])
@@ -117,6 +122,15 @@ function HomePage(props) {
     console.log('handleIsDrawing ~ isDrawing', isDrawing)
   }
 
+  const [modalShow, setModalShow] = useState(false)
+
+  const onShow = () => {
+    setModalShow(true)
+  }
+  const onHide = () => {
+    setModalShow(false)
+  }
+
   return (
     <div className='wrapper'>
       <SideBar
@@ -136,14 +150,11 @@ function HomePage(props) {
         isFindByDistance={isFindByDistance}
         handleSetInputValue={handleSetInputValue}
         isDrawing={isDrawing}
-        // handleIsDrawing={handleIsDrawing}
+        handleModalShow={onShow}
       />
       <div className='map'>
         <NavbarComponent
           className='navbar-component'
-          // handleSetInputValue={handleSetInputValue}
-          // handleFindByDistance={handleFindByDistance}
-          // isFindByDistance={isFindByDistance}
           handleIsSignedOut={handleIsSignedOut}
           isSignedIn={isSignedIn}
         />
@@ -155,6 +166,7 @@ function HomePage(props) {
           schoolList={schoolListSearch || schoolList}
           handleIsDrawing={handleIsDrawing}
         />
+        <AddSchoolModal show={modalShow} onHide={onHide} onShow={onShow} groupList={groupList} />
       </div>
     </div>
   )

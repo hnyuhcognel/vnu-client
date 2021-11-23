@@ -1,4 +1,3 @@
-// Be sure to include styles at some point, probably during your bootstraping
 import '@trendmicro/react-sidenav/dist/react-sidenav.css'
 import React, { useState } from 'react'
 import ReactTooltip from 'react-tooltip'
@@ -22,10 +21,9 @@ function SideBar(props) {
     isFindByDistance,
     handleFindByDistance,
     handleSetInputValue,
-    // handleIsDrawing,
     isDrawing,
+    handleModalShow,
   } = props
-  console.log('SideBar ~ isDrawing', isDrawing)
 
   return (
     <div className='school-search'>
@@ -154,7 +152,6 @@ function SideBar(props) {
           <Button
             id='find-school-by-distance__btn'
             onClick={() => {
-              console.log(isDrawing)
               !isDrawing && handleFindByDistance()
             }}
           >
@@ -167,6 +164,10 @@ function SideBar(props) {
           </Button>
         )}
       </div>
+      <hr />
+      <Button id='submit__button' className='toggle-modal' onClick={handleModalShow}>
+        Thêm trường
+      </Button>
     </div>
   )
 }

@@ -1,0 +1,79 @@
+.comment {
+  width: 100%;
+  font-family: Roboto;
+  .comment--title {
+    width: 95%;
+    hr {
+      margin: 0;
+      color: #26413c;
+    }
+    h1 {
+      text-align: center;
+      margin: 5px 0;
+      font-size: 20px;
+    }
+  }
+  .comment--container-list {
+    max-height: 200px;
+    overflow: scroll;
+    .comment--container {
+      display: flex;
+      width: 95%;
+      margin-bottom: 5px;
+      .comment--avatar {
+        display: flex;
+        margin-right: 10px;
+        h1 {
+          color: white;
+          height: 40px;
+          width: 40px;
+          margin: 10px 0 0 0;
+          text-align: center;
+          border-radius: 50%;
+          // background-color: rgb(177, 96, 96);
+          font-size: 20px;
+          line-height: 40px;
+        }
+      }
+      .comment--content {
+        flex: 1;
+        .header--comment {
+          .name-and-date {
+            display: flex;
+            p {
+              font-weight: 600;
+              text-align: left;
+              margin: 10px 0 0px 0;
+              margin-right: 10px;
+              &:last-child {
+                font-weight: 400;
+                color: #aeb7b5;
+              }
+            }
+          }
+          svg {
+            margin-bottom: 5px;
+            color: #ffdf00;
+          }
+        }
+        .main--comment {
+          display: flex;
+          border-bottom: 1px solid #c9d0cf;
+          p {
+            margin: 0 0 3px 0;
+            font-size: 17px;
+          }
+        }
+      }
+      .comment--controls {
+        display: flex;
+        button {
+          background-color: white;
+          font-size: 15px;
+          border: none;
+          color: #007bff;
+        }
+      }
+    }
+  }
+}

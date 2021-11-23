@@ -1,0 +1,83 @@
+.modal-dialog {
+  .modal-content {
+    border: none;
+  }
+}
+
+.add-school--form {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  font-family: sans-serif;
+  background-color: #fff;
+  width: 396px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px 0 24px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  border-radius: 8px;
+  .coordinates {
+    display: flex;
+    width: 364px;
+    justify-content: space-between;
+    .form-group {
+      width: 49%;
+      input {
+        width: 100%;
+      }
+    }
+  }
+
+  .form-group {
+    width: 364px;
+    #group_id {
+      width: 100%;
+      .css-1s2u09g-control {
+        padding: 8.5px 6px;
+      }
+      .css-1pahdxg-control {
+        padding: 8.5px 6px;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .add-school__button {
+    display: flex;
+    width: 364px;
+    justify-content: space-between;
+    .add-school__button--add,
+    .add-school__button--cancel {
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      line-height: 48px;
+      border-radius: 6px;
+      padding: 0 16px;
+      margin-top: 10px;
+      border: none;
+      background-color: #26413c;
+      width: 49%;
+
+      &:last-child {
+        font-size: 18px;
+        width: 49%;
+        background-color: #4b4e53;
+        &:hover {
+          background-color: #75787c;
+        }
+        &:active {
+          background-color: #4b4e53;
+        }
+      }
+      &:active {
+        background-color: #26413c;
+      }
+      &:hover {
+        background-color: #36665d;
+      }
+    }
+  }
+}

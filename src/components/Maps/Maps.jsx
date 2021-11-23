@@ -89,6 +89,7 @@ function Maps(props) {
         center={[13.75922020532489, 109.21785730217843]}
         zoom={5}
         scrollWheelZoom={true}
+        // closePopupOnClick={false}
       >
         <SearchField />
         <LayersControl position='topright'>
