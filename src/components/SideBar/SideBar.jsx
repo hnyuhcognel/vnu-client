@@ -22,7 +22,6 @@ function SideBar(props) {
     handleFindByDistance,
     handleSetInputValue,
     isDrawing,
-    handleModalShow,
     handleSetIsAddingSchool,
     isAddingSchool,
   } = props

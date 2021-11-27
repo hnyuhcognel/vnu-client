@@ -7,9 +7,21 @@ import { Button, Input, Label } from 'reactstrap'
 import Comment from './Comment/Comment'
 import './styles.scss'
 import axios from 'axios'
+import jwtDecode from 'jwt-decode'
 
 export default function SchoolList(props) {
-  const { icon, onShow, handleSetIsEditingSchool, handleSetIdSchoolEditing, justAddSchool } = props
+  const {
+    icon,
+    onShow,
+    handleSetIsEditingSchool,
+    handleSetIdSchoolEditing,
+    justAddSchool,
+    schoolList,
+    handleSetJustDeletedSchool,
+  } = props
+
+  const tokenLocal = localStorage.getItem('token')
+  const tokenDecoded = jwtDecode(tokenLocal)
 
   const [isRate, setIsRate] = useState(false)
   const [isEditRate, setIsEditRate] = useState(false)
@@ -20,11 +32,14 @@ export default function SchoolList(props) {
   const [idRated, setIdRated] = useState()
 
   const handleRate = async (id_truong) => {
-    if (ratedStarsAmount === 0) alert('Vui lòng chọn số sao!')
+    if (ratedStarsAmount === 0) {
+      alert('Vui lòng chọn số sao!')
+      return
+    }
 
     let config = {
       headers: {
-        Authorization: localStorage.getItem('token'),
+        Authorization: tokenLocal,
         'Content-Type': 'multipart/form-data',
       },
     }
@@ -43,6 +58,8 @@ export default function SchoolList(props) {
       const result = await axios.post('http://localhost:8000/danhgia', formData, config)
       console.log(result)
       setIsRate(false)
+      setCommentRated('')
+      setRatedStarAmount(0)
     } catch (error) {
       console.log(error)
     }
@@ -102,12 +119,7 @@ export default function SchoolList(props) {
       await axios.delete(`http://localhost:8000/truong/${id_truong}`, {
         headers: { Authorization: localStorage.getItem('token') },
       })
-      const deletedCommentIndex = schoolListState.findIndex(
-        (school) => school.id_truong === id_truong,
-      )
-      const newSchoolListState = [...schoolListState]
-      newSchoolListState.splice(deletedCommentIndex, 1)
-      setSchoolListState(newSchoolListState)
+      handleSetJustDeletedSchool()
       console.log('deleted')
     } catch (error) {
       console.log(error)
@@ -115,8 +127,8 @@ export default function SchoolList(props) {
   }
   return (
     <div>
-      {schoolListState &&
-        schoolListState.map((school, index) => {
+      {schoolList &&
+        schoolList.map((school, index) => {
           return (
             <Marker position={[school.lat, school.long]} icon={icon} key={index}>
               <Popup
@@ -216,8 +228,9 @@ export default function SchoolList(props) {
                       name='danh_gia'
                       type='textarea'
                       placeholder='Đánh giá của bạn'
-                      onChange={(e) => setCommentRated(e.target.value)}
-                      value={commentRated}
+                      // onChange={(e) => setCommentRated(e.target.value)}
+                      onBlur={(e) => setCommentRated(e.target.value)}
+                      value={commentRated !== '' ? commentRated : null}
                     />
                     {!isEditRate && <Label for='hinh_anh'>Đính kèm ảnh:</Label>}
                     {!isEditRate && (
@@ -236,7 +249,7 @@ export default function SchoolList(props) {
                   {!isRate && !isEditRate && (
                     <Button onClick={() => setIsRate(true)}>Gửi đánh giá</Button>
                   )}
-                  {!isRate && !isEditRate && (
+                  {tokenDecoded.role === 'admin' && !isRate && !isEditRate && (
                     <Button onClick={() => handleEditSchool(school.id_truong)}>Sửa trường</Button>
                   )}
                   {isRate && <Button onClick={() => handleRate(school.id_truong)}>Đánh giá</Button>}
@@ -253,7 +266,9 @@ export default function SchoolList(props) {
                       Hủy
                     </Button>
                   )}
-                  <Button onClick={() => handleDeleteSchool(school.id_truong)}>Xóa trường</Button>
+                  {tokenDecoded.role === 'admin' && (
+                    <Button onClick={() => handleDeleteSchool(school.id_truong)}>Xóa trường</Button>
+                  )}
                 </div>
                 {!isRate && !isEditRate && (
                   <Comment

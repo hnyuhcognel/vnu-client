@@ -15,7 +15,7 @@
   }
   .comment--container-list {
     max-height: 170px;
-    overflow: scroll;
+    overflow-y: scroll;
     .comment--container {
       display: flex;
       width: 95%;

@@ -23,6 +23,7 @@ function HomePage(props) {
 
   const [justAddSchool, setJustAddSchool] = useState(0)
   const [justAddGroup, setJustAddGroup] = useState(0)
+  const [justDeletedSchool, setJustDeletedSchool] = useState(0)
   const [isAddingSchool, setIsAddingSchool] = useState(false)
   const [isEditingSchool, setIsEditingSchool] = useState(false)
   const [idSchoolEditing, setIdSchoolEditing] = useState(0)
@@ -45,6 +46,10 @@ function HomePage(props) {
   }
   const handleJustAddGroup = () => {
     setJustAddGroup(justAddGroup + 1)
+  }
+
+  const handleSetJustDeletedSchool = () => {
+    setJustDeletedSchool(justDeletedSchool + 1)
   }
 
   useEffect(() => {
@@ -78,7 +83,7 @@ function HomePage(props) {
       }
     }
     fetchData()
-  }, [justAddSchool])
+  }, [justAddSchool, justDeletedSchool])
   const areaList = areaData
   const cityList = cityData
   const groupList = groupData
@@ -200,6 +205,7 @@ function HomePage(props) {
           handleSetIsEditingSchool={handleSetIsEditingSchool}
           handleSetIdSchoolEditing={handleSetIdSchoolEditing}
           justAddSchool={justAddSchool}
+          handleSetJustDeletedSchool={handleSetJustDeletedSchool}
         />
         <AddSchoolModal
           handleJustAddSchool={handleJustAddSchool}
