@@ -5,7 +5,7 @@ import { FormFeedback, FormGroup, Input } from 'reactstrap'
 import './styles.scss'
 
 function InputField(props) {
-  const { field, form, type, placeholder, disabled } = props
+  const { field, form, type, placeholder, disabled, value, onInput } = props
   const { name } = field
   const { errors, touched } = form
   const showError = errors[name] && touched[name]
@@ -16,6 +16,8 @@ function InputField(props) {
         className='input'
         id={name}
         {...field}
+        onInput={onInput}
+        value={value}
         type={type}
         disabled={disabled}
         placeholder={placeholder}

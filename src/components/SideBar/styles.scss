@@ -114,9 +114,13 @@
       }
     }
   }
-  .toggle-modal#submit__button {
+  .toggle-modal--add-school#submit__button {
     width: 130px;
     margin-left: calc((260px - 130px) / 2);
+  }
+  .toggle-modal--cancel-add-school#submit__button {
+    width: 160px;
+    margin-left: calc((260px - 160px) / 2);
   }
 }
 

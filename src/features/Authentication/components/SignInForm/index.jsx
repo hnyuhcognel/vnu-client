@@ -48,7 +48,8 @@ export default function SignInForm(props) {
       onSubmit={handleSignInSubmit}
     >
       {(formikProps) => {
-        const { values, errors, touched, isSubmitting } = formikProps
+        const { values, errors, touched, isSubmitting, actions } = formikProps
+        console.log('SignInForm ~ actions', actions)
         return (
           <Form className='sign-in__form'>
             <FastField name='signInUsername' component={InputField} placeholder='Tên tài khoản' />
@@ -61,7 +62,6 @@ export default function SignInForm(props) {
             <button className='myBtn' color='primary' type='submit'>
               Đăng nhập
             </button>
-            {/* <a href=''>Quên mật khẩu?</a> */}
             <div className='line'></div>
             <p>Bạn chưa có tài khoản?</p>
             <button className='myBtn' color='success' onClick={handleSign}>

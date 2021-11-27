@@ -23,6 +23,8 @@ function SideBar(props) {
     handleSetInputValue,
     isDrawing,
     handleModalShow,
+    handleSetIsAddingSchool,
+    isAddingSchool,
   } = props
 
   return (
@@ -152,22 +154,45 @@ function SideBar(props) {
           <Button
             id='find-school-by-distance__btn'
             onClick={() => {
-              !isDrawing && handleFindByDistance()
+              !isDrawing && handleFindByDistance(true)
+              handleSetIsAddingSchool(false)
             }}
           >
             Tìm trường theo bán kính
           </Button>
         )}
         {isFindByDistance && (
-          <Button id='submit__button' onClick={handleFindByDistance}>
+          <Button id='submit__button' onClick={() => handleFindByDistance(false)}>
             Hủy
           </Button>
         )}
       </div>
       <hr />
-      <Button id='submit__button' className='toggle-modal' onClick={handleModalShow}>
-        Thêm trường
-      </Button>
+      {!isAddingSchool && (
+        <Button
+          id='submit__button'
+          className='toggle-modal--add-school'
+          onClick={() => {
+            // handleModalShow()
+            handleFindByDistance(false)
+            !isDrawing && handleSetIsAddingSchool(true)
+            !isDrawing && alert('Vui lòng chọn tọa độ cần thêm (Chỉ nằm trên lãnh thổ Việt Nam)!')
+          }}
+        >
+          Thêm trường
+        </Button>
+      )}
+      {isAddingSchool && (
+        <Button
+          className='toggle-modal--cancel-add-school'
+          id='submit__button'
+          onClick={() => {
+            handleSetIsAddingSchool(false)
+          }}
+        >
+          Hủy thêm trường
+        </Button>
+      )}
     </div>
   )
 }

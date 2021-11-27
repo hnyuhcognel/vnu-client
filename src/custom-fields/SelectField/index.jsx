@@ -22,9 +22,18 @@ SelectField.defaultProps = {
 }
 
 function SelectField(props) {
-  const { field, form, options, label, placeholder, disabled, handleSetNewGroup } = props
-  console.log('SelectField ~ handleSetNewGroup', handleSetNewGroup)
-  const { name, value } = field
+  const {
+    field,
+    form,
+    options,
+    label,
+    placeholder,
+    disabled,
+    handleSetNewGroup,
+    value,
+    onChangeGroupId,
+  } = props
+  const { name } = field
   const { errors, touched } = form
   const showError = errors[name] && touched[name]
 
@@ -36,7 +45,7 @@ function SelectField(props) {
 
   optionsInFormat.push({ value: 'khac', label: 'Nhóm khác...' })
 
-  const selectedOption = optionsInFormat.find((option) => option.id_nhom === value)
+  const selectedOption = optionsInFormat.find((option) => option.value === value)
 
   const handleSelectedOptionChange = (selectedOption) => {
     const selectedValue = selectedOption ? selectedOption.value : selectedOption
@@ -60,7 +69,15 @@ function SelectField(props) {
         id={name}
         {...field}
         value={selectedOption}
-        onChange={handleSelectedOptionChange}
+        onChange={(selected) => {
+          if (onChangeGroupId) {
+            handleSelectedOptionChange(selected)
+            onChangeGroupId(selected)
+          } else {
+            handleSelectedOptionChange(selected)
+          }
+          console.log(selected)
+        }}
         placeholder={placeholder}
         isDisabled={disabled}
         options={optionsInFormat}

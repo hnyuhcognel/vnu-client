@@ -16,7 +16,6 @@ export default function Comment(props) {
   } = props
 
   const [schoolRateCommentList, setSchoolRateCommentList] = useState()
-  console.log('Comment ~ schoolRateCommentList', schoolRateCommentList)
 
   useEffect(() => {
     const fetchData = async () => {

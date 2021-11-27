@@ -6,7 +6,6 @@ export default function CommentPictures(props) {
   const { commentPictures } = props
 
   const imgSrcList = []
-  console.log('CommentPictures ~ imgSrcList', imgSrcList.length)
   commentPictures &&
     commentPictures.forEach((commentPicture) => {
       // console.log(commentPicture.hinh_anh)

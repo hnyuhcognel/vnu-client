@@ -1,7 +1,7 @@
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Marker, Popup } from 'react-leaflet'
 import { Button, Input, Label } from 'reactstrap'
 import Comment from './Comment/Comment'
@@ -9,7 +9,7 @@ import './styles.scss'
 import axios from 'axios'
 
 export default function SchoolList(props) {
-  const { icon, schoolList } = props
+  const { icon, onShow, handleSetIsEditingSchool, handleSetIdSchoolEditing, justAddSchool } = props
 
   const [isRate, setIsRate] = useState(false)
   const [isEditRate, setIsEditRate] = useState(false)
@@ -75,13 +75,58 @@ export default function SchoolList(props) {
     setRatedStarAmount(0)
     setCommentRated('')
   }
+
+  const popupRef = useRef()
+
+  const handleEditSchool = (school_id) => {
+    handleSetIsEditingSchool(true)
+    handleSetIdSchoolEditing(school_id)
+    popupRef.current._close()
+    onShow()
+  }
+  const [schoolListState, setSchoolListState] = useState()
+  useEffect(() => {
+    const handleSetSchoolListState = async () => {
+      try {
+        const result = await axios('http://localhost:8000/truong')
+        setSchoolListState(result.data.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    handleSetSchoolListState()
+  }, [justAddSchool])
+
+  const handleDeleteSchool = async (id_truong) => {
+    try {
+      await axios.delete(`http://localhost:8000/truong/${id_truong}`, {
+        headers: { Authorization: localStorage.getItem('token') },
+      })
+      const deletedCommentIndex = schoolListState.findIndex(
+        (school) => school.id_truong === id_truong,
+      )
+      const newSchoolListState = [...schoolListState]
+      newSchoolListState.splice(deletedCommentIndex, 1)
+      setSchoolListState(newSchoolListState)
+      console.log('deleted')
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div>
-      {schoolList &&
-        schoolList.map((school, index) => {
+      {schoolListState &&
+        schoolListState.map((school, index) => {
           return (
-            <Marker position={[school.long, school.lat]} icon={icon} key={index}>
-              <Popup className='school-popup' maxWidth='500px' autoClose={false} autoPan keepInView>
+            <Marker position={[school.lat, school.long]} icon={icon} key={index}>
+              <Popup
+                ref={popupRef}
+                className='school-popup'
+                maxWidth='500px'
+                autoClose={false}
+                autoPan
+                keepInView
+              >
                 <p className='school-title'>{school.tentruong}</p>
                 {!isRate && !isEditRate && (
                   <div className='rated-star'>
@@ -89,6 +134,8 @@ export default function SchoolList(props) {
                     <FontAwesomeIcon className='star-icon' icon={faStarSolid} />
                   </div>
                 )}
+                {!isRate && !isEditRate && <p id='description'>{school.mo_ta}</p>}
+
                 {(isRate || isEditRate) && (
                   <div className='send-stars'>
                     <Button
@@ -189,7 +236,9 @@ export default function SchoolList(props) {
                   {!isRate && !isEditRate && (
                     <Button onClick={() => setIsRate(true)}>Gửi đánh giá</Button>
                   )}
-                  {!isRate && !isEditRate && <Button>Sửa trường</Button>}
+                  {!isRate && !isEditRate && (
+                    <Button onClick={() => handleEditSchool(school.id_truong)}>Sửa trường</Button>
+                  )}
                   {isRate && <Button onClick={() => handleRate(school.id_truong)}>Đánh giá</Button>}
                   {isEditRate && <Button onClick={handleEditRate}>Xác nhận</Button>}
                   {(isRate || isEditRate) && (
@@ -204,7 +253,7 @@ export default function SchoolList(props) {
                       Hủy
                     </Button>
                   )}
-                  <Button>Xóa trường</Button>
+                  <Button onClick={() => handleDeleteSchool(school.id_truong)}>Xóa trường</Button>
                 </div>
                 {!isRate && !isEditRate && (
                   <Comment

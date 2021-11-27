@@ -12,7 +12,20 @@ import SearchField from './Search/Search'
 import './styles.scss'
 
 function Maps(props) {
-  const { distance, schoolList, handleFindByDistance, isFindByDistance, handleIsDrawing } = props
+  const {
+    distance,
+    schoolList,
+    handleFindByDistance,
+    isFindByDistance,
+    handleIsDrawing,
+    isAddingSchool,
+    handleSetCoordinatesMarker,
+    onShow,
+    handleSetIsAddingSchool,
+    handleSetIsEditingSchool,
+    handleSetIdSchoolEditing,
+    justAddSchool,
+  } = props
   const icon = L.icon({
     iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
     iconAnchor: [12, 40],
@@ -105,7 +118,8 @@ function Maps(props) {
             position='topleft'
             onDrawStart={() => {
               handleIsDrawing(true)
-              handleFindByDistance()
+              handleFindByDistance(false)
+              handleSetIsAddingSchool(false)
             }}
             // onCreated={(e) => handleLine(e)}
             onCreated={async (e) => {
@@ -118,7 +132,13 @@ function Maps(props) {
             draw={{ marker: { icon: icon }, circle: false, circlemarker: false }}
           />
         </FeatureGroup>
-        <SchoolList icon={icon} schoolList={schoolList} />
+        <SchoolList
+          icon={icon}
+          onShow={onShow}
+          handleSetIsEditingSchool={handleSetIsEditingSchool}
+          handleSetIdSchoolEditing={handleSetIdSchoolEditing}
+          justAddSchool={justAddSchool}
+        />
         <Draw listDrawData={listDrawData} icon={icon} />
         <Minimap position='bottomright' zoom='4' />
         <LocationMarker
@@ -126,6 +146,9 @@ function Maps(props) {
           schoolList={schoolList}
           distance={distance}
           isFindByDistance={isFindByDistance}
+          isAddingSchool={isAddingSchool}
+          handleSetCoordinatesMarker={handleSetCoordinatesMarker}
+          onShow={onShow}
         />
       </MapContainer>
     </div>

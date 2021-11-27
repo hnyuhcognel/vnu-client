@@ -21,6 +21,32 @@ function HomePage(props) {
   const [groupData, setGroupData] = useState()
   const [schoolData, setSchoolData] = useState({})
 
+  const [justAddSchool, setJustAddSchool] = useState(0)
+  const [justAddGroup, setJustAddGroup] = useState(0)
+  const [isAddingSchool, setIsAddingSchool] = useState(false)
+  const [isEditingSchool, setIsEditingSchool] = useState(false)
+  const [idSchoolEditing, setIdSchoolEditing] = useState(0)
+  const [coordinatesMarker, setCoordinatesMarker] = useState([])
+  const handleSetIsAddingSchool = (bool) => {
+    setIsAddingSchool(bool)
+  }
+  const handleSetIsEditingSchool = (bool) => {
+    setIsEditingSchool(bool)
+  }
+  const handleSetIdSchoolEditing = (school_id) => {
+    setIdSchoolEditing(school_id)
+  }
+  const handleSetCoordinatesMarker = (latlng) => {
+    setCoordinatesMarker(latlng)
+  }
+
+  const handleJustAddSchool = () => {
+    setJustAddSchool(justAddSchool + 1)
+  }
+  const handleJustAddGroup = () => {
+    setJustAddGroup(justAddGroup + 1)
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios('http://localhost:8000/mien')
@@ -41,7 +67,7 @@ function HomePage(props) {
       setGroupData(result.data)
     }
     fetchData()
-  }, [])
+  }, [justAddGroup])
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -52,7 +78,7 @@ function HomePage(props) {
       }
     }
     fetchData()
-  }, [])
+  }, [justAddSchool])
   const areaList = areaData
   const cityList = cityData
   const groupList = groupData
@@ -110,9 +136,9 @@ function HomePage(props) {
     }
   }
 
-  const [isFindByDistance, setIsFindByDistance] = useState(true)
-  const handleFindByDistance = () => {
-    setIsFindByDistance(!isFindByDistance)
+  const [isFindByDistance, setIsFindByDistance] = useState(false)
+  const handleFindByDistance = (bool) => {
+    setIsFindByDistance(bool)
     setInputValue('')
   }
 
@@ -151,6 +177,8 @@ function HomePage(props) {
         handleSetInputValue={handleSetInputValue}
         isDrawing={isDrawing}
         handleModalShow={onShow}
+        handleSetIsAddingSchool={handleSetIsAddingSchool}
+        isAddingSchool={isAddingSchool}
       />
       <div className='map'>
         <NavbarComponent
@@ -165,8 +193,28 @@ function HomePage(props) {
           handleFindByDistance={handleFindByDistance}
           schoolList={schoolListSearch || schoolList}
           handleIsDrawing={handleIsDrawing}
+          isAddingSchool={isAddingSchool}
+          handleSetCoordinatesMarker={handleSetCoordinatesMarker}
+          handleSetIsAddingSchool={handleSetIsAddingSchool}
+          onShow={onShow}
+          handleSetIsEditingSchool={handleSetIsEditingSchool}
+          handleSetIdSchoolEditing={handleSetIdSchoolEditing}
+          justAddSchool={justAddSchool}
         />
-        <AddSchoolModal show={modalShow} onHide={onHide} onShow={onShow} groupList={groupList} />
+        <AddSchoolModal
+          handleJustAddSchool={handleJustAddSchool}
+          handleJustAddGroup={handleJustAddGroup}
+          show={modalShow}
+          onHide={onHide}
+          onShow={onShow}
+          groupList={groupList}
+          coordinatesMarker={coordinatesMarker}
+          handleSetIsAddingSchool={handleSetIsAddingSchool}
+          schoolList={schoolList}
+          isEditingSchool={isEditingSchool}
+          idSchoolEditing={idSchoolEditing}
+          handleSetIsEditingSchool={handleSetIsEditingSchool}
+        />
       </div>
     </div>
   )

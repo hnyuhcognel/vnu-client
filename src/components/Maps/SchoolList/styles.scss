@@ -19,7 +19,7 @@
   .rated-star {
     font-size: 50px;
     display: flex;
-    margin: 10px 0;
+    margin-top: 5px;
     svg {
       margin: 5px;
       color: #ffdf00;
@@ -30,6 +30,10 @@
       font-size: 60px;
       line-height: 60px;
     }
+  }
+
+  #description {
+    margin: 2px 0;
   }
 
   .school__button--container {
