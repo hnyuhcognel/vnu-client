@@ -5,31 +5,32 @@ import { Button, Input } from 'reactstrap'
 import './styles.scss'
 
 export default function Draw(props) {
-  const { listDrawData, icon } = props
-  // console.log('Draw ~ listDrawData', listDrawData)
+  const { listDrawData, icon, username } = props
   const markers = []
   const polylines = []
   const polygons = []
   if (listDrawData) {
     for (let drawData of listDrawData.features) {
-      if (drawData.geometry.type === 'Point') {
-        markers.push({
-          id: drawData.properties.id,
-          mota: drawData.properties.mota,
-          toado: drawData.geometry.coordinates,
-        })
-      } else if (drawData.geometry.type === 'LineString') {
-        polylines.push({
-          id: drawData.properties.id,
-          mota: drawData.properties.mota,
-          toado: drawData.geometry.coordinates,
-        })
-      } else if (drawData.geometry.type === 'Polygon') {
-        polygons.push({
-          id: drawData.properties.id,
-          mota: drawData.properties.mota,
-          toado: drawData.geometry.coordinates,
-        })
+      if (drawData.properties.username === username) {
+        if (drawData.geometry.type === 'Point') {
+          markers.push({
+            id: drawData.properties.id,
+            mota: drawData.properties.mota,
+            toado: drawData.geometry.coordinates,
+          })
+        } else if (drawData.geometry.type === 'LineString') {
+          polylines.push({
+            id: drawData.properties.id,
+            mota: drawData.properties.mota,
+            toado: drawData.geometry.coordinates,
+          })
+        } else if (drawData.geometry.type === 'Polygon') {
+          polygons.push({
+            id: drawData.properties.id,
+            mota: drawData.properties.mota,
+            toado: drawData.geometry.coordinates,
+          })
+        }
       }
     }
   }

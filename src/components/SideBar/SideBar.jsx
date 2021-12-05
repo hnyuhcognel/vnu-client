@@ -1,4 +1,5 @@
 import '@trendmicro/react-sidenav/dist/react-sidenav.css'
+import jwtDecode from 'jwt-decode'
 import React, { useState } from 'react'
 import ReactTooltip from 'react-tooltip'
 import { Button, Input } from 'reactstrap'
@@ -25,6 +26,8 @@ function SideBar(props) {
     handleSetIsAddingSchool,
     isAddingSchool,
   } = props
+
+  const tokenDecoded = jwtDecode(localStorage.getItem('token'))
 
   return (
     <div className='school-search'>
@@ -167,7 +170,7 @@ function SideBar(props) {
         )}
       </div>
       <hr />
-      {!isAddingSchool && (
+      {tokenDecoded.role === 'admin' && !isAddingSchool && (
         <Button
           id='submit__button'
           className='toggle-modal--add-school'

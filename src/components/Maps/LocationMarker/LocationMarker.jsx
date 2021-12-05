@@ -11,6 +11,8 @@ export default function LocationMarker(props) {
     handleSetCoordinatesMarker,
     onShow,
   } = props
+  console.log('LocationMarker ~ isFindByDistance', isFindByDistance)
+  console.log('LocationMarker ~ isAddingSchool', isAddingSchool)
   const [marker, setMarker] = useState()
 
   function getDistance(origin, destination) {
@@ -35,7 +37,7 @@ export default function LocationMarker(props) {
 
   const map = useMapEvents({
     click(e) {
-      if (!isAddingSchool) return
+      // if (!isAddingSchool) return
       if (isAddingSchool) {
         handleSetCoordinatesMarker(e.latlng)
         onShow()
@@ -44,6 +46,7 @@ export default function LocationMarker(props) {
       if (!isFindByDistance) return
 
       if (distanceInput === '') {
+        console.log('click ~ distanceInput', distanceInput)
         alert('Vui lòng nhập bán kính ')
         setMarker(null)
         return
@@ -55,9 +58,9 @@ export default function LocationMarker(props) {
   var polylines = []
   const distanceAround = () => {
     schoolList.forEach((school) => {
-      let distance = getDistance(Object.values(marker), [school.long, school.lat]) / 1000
+      let distance = getDistance(Object.values(marker), [school.lat, school.long]) / 1000
       if (distance <= distanceInput)
-        polylines.push([Object.values(marker), [school.long, school.lat]])
+        polylines.push([Object.values(marker), [school.lat, school.long]])
     })
   }
 

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import jwtDecode from 'jwt-decode'
 import L from 'leaflet'
 import React, { useEffect, useState } from 'react'
 import { FeatureGroup, LayersControl, MapContainer, TileLayer } from 'react-leaflet'
@@ -36,12 +37,19 @@ function Maps(props) {
     iconAnchor: [18, 39],
     iconSize: [34.5, 40],
   })
+  const greenIcon = L.icon({
+    iconUrl: 'https://cdn.pixabay.com/photo/2014/04/03/10/03/google-309741_960_720.png',
+    iconAnchor: [18, 39],
+    iconSize: [24.72, 40],
+  })
 
   const [drawData, setDrawData] = useState({
     type: '',
     coordinates: [],
     mota: '',
+    username: '',
   })
+  const tokenDecoded = jwtDecode(localStorage.getItem('token'))
 
   const [listDrawData, setListDrawData] = useState()
 
@@ -56,6 +64,7 @@ function Maps(props) {
         ...drawData,
         type: 'Polygon',
         coordinates: [latlngs],
+        username: tokenDecoded.username,
       })
     } else if (e.layerType === 'polyline') {
       let latlngs = []
@@ -66,21 +75,25 @@ function Maps(props) {
         ...drawData,
         type: 'LineString',
         coordinates: latlngs,
+        username: tokenDecoded.username,
       })
     } else if (e.layerType === 'marker') {
       setDrawData({
         ...drawData,
         type: 'Point',
         coordinates: [e.layer._latlng.lat, e.layer._latlng.lng],
+        username: tokenDecoded.username,
       })
     }
   }
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log('drawdata', drawData)
       const result1 = await axios
         .post('http://localhost:8000/khac', drawData)
-        .then(() => {
+        .then((res) => {
+          console.log(res)
           console.log('Draw saved')
         })
         .catch((err) => {
@@ -142,7 +155,7 @@ function Maps(props) {
           schoolList={schoolList}
           handleSetJustDeletedSchool={handleSetJustDeletedSchool}
         />
-        <Draw listDrawData={listDrawData} icon={icon} />
+        <Draw listDrawData={listDrawData} icon={greenIcon} username={tokenDecoded.username} />
         <Minimap position='bottomright' zoom='4' />
         <LocationMarker
           icon={redIcon}
