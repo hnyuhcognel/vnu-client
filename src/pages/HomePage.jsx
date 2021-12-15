@@ -28,6 +28,7 @@ function HomePage(props) {
   const [isEditingSchool, setIsEditingSchool] = useState(false)
   const [idSchoolEditing, setIdSchoolEditing] = useState(0)
   const [coordinatesMarker, setCoordinatesMarker] = useState([])
+  const [justSearchSchool, setJustSearchSchool] = useState(0)
   const handleSetIsAddingSchool = (bool) => {
     setIsAddingSchool(bool)
   }
@@ -50,6 +51,9 @@ function HomePage(props) {
 
   const handleSetJustDeletedSchool = () => {
     setJustDeletedSchool(justDeletedSchool + 1)
+  }
+  const handleSetJustSearchSchool = () => {
+    setJustSearchSchool(justSearchSchool + 1)
   }
 
   useEffect(() => {
@@ -104,6 +108,7 @@ function HomePage(props) {
   }
   const handleGroupChange = (e) => {
     setGroupValue(e.target.value)
+    setSchoolValue(null)
   }
   const handleSchoolChange = (e) => {
     setSchoolValue(e.target.value)
@@ -114,31 +119,43 @@ function HomePage(props) {
       setSchoolListSearch(schoolList.filter((school) => school.id_truong == schoolValue))
       return
     }
+    if (groupValue) {
+      setSchoolListSearch(schoolList.filter((school) => school.id_nhom == groupValue))
+      return
+    }
+    if (cityValue) {
+      setSchoolListSearch(schoolList.filter((school) => school.id_tinh == cityValue))
+      return
+    }
+    if (areaValue) {
+      setSchoolListSearch(schoolList.filter((school) => school.id_mien == areaValue))
+      return
+    }
 
     if (!areaValue && !cityValue && !groupValue && !schoolValue) {
       setSchoolListSearch(schoolList)
       return
     }
 
-    if (areaValue && !cityValue) {
-      setSchoolListSearch(schoolList.filter((school) => school.id_mien == areaValue))
-      return
-    }
+    // if (areaValue && !cityValue) {
+    //   setSchoolListSearch(schoolList.filter((school) => school.id_mien == areaValue))
+    //   return
+    // }
 
-    if (cityValue && groupValue && !schoolValue) {
-      setSchoolListSearch(
-        schoolList.filter((school) => school.id_tinh == cityValue && school.id_nhom == groupValue),
-      )
-      return
-    }
-    if (cityValue && !groupValue && !schoolValue) {
-      setSchoolListSearch(schoolList.filter((school) => school.id_tinh == cityValue))
-      return
-    }
-    if (!cityValue && groupValue && !schoolValue) {
-      setSchoolListSearch(schoolList.filter((school) => school.id_nhom == groupValue))
-      return
-    }
+    // if (cityValue && groupValue && !schoolValue) {
+    //   setSchoolListSearch(
+    //     schoolList.filter((school) => school.id_tinh == cityValue && school.id_nhom == groupValue),
+    //   )
+    //   return
+    // }
+    // if (cityValue && !groupValue && !schoolValue) {
+    //   setSchoolListSearch(schoolList.filter((school) => school.id_tinh == cityValue))
+    //   return
+    // }
+    // if (!cityValue && groupValue && !schoolValue) {
+    //   setSchoolListSearch(schoolList.filter((school) => school.id_nhom == groupValue))
+    //   return
+    // }
   }
 
   const [isFindByDistance, setIsFindByDistance] = useState(false)
@@ -150,7 +167,6 @@ function HomePage(props) {
   const [isDrawing, setIsDrawing] = useState(false)
   const handleIsDrawing = (bool) => {
     setIsDrawing(bool)
-    console.log('handleIsDrawing ~ isDrawing', isDrawing)
   }
 
   const [modalShow, setModalShow] = useState(false)
@@ -206,6 +222,7 @@ function HomePage(props) {
           handleSetIdSchoolEditing={handleSetIdSchoolEditing}
           justAddSchool={justAddSchool}
           handleSetJustDeletedSchool={handleSetJustDeletedSchool}
+          justDeletedSchool={justDeletedSchool}
         />
         <AddSchoolModal
           handleJustAddSchool={handleJustAddSchool}

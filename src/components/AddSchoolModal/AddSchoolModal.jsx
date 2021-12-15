@@ -174,6 +174,7 @@ function AddSchoolModal(props) {
                   !isEditingSchool
                     ? handleAddSchoolSubmit(e, setErrors)
                     : handleEditSchoolSubmit(e, setErrors, editingSchool.id_truong)
+                  handleSetIsAddingSchool(false)
                 }}
               >
                 <FastField

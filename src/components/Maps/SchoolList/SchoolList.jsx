@@ -18,6 +18,7 @@ export default function SchoolList(props) {
     justAddSchool,
     schoolList,
     handleSetJustDeletedSchool,
+    justDeletedSchool,
   } = props
 
   const tokenLocal = localStorage.getItem('token')
@@ -101,18 +102,18 @@ export default function SchoolList(props) {
     popupRef.current._close()
     onShow()
   }
-  const [schoolListState, setSchoolListState] = useState()
-  useEffect(() => {
-    const handleSetSchoolListState = async () => {
-      try {
-        const result = await axios('http://localhost:8000/truong')
-        setSchoolListState(result.data.data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    handleSetSchoolListState()
-  }, [justAddSchool])
+  // const [schoolListState, setSchoolListState] = useState()
+  // useEffect(() => {
+  //   const handleSetSchoolListState = async () => {
+  //     try {
+  //       const result = await axios('http://localhost:8000/truong')
+  //       setSchoolListState(result.data.data)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  //   handleSetSchoolListState()
+  // }, [justAddSchool, justDeletedSchool])
 
   const handleDeleteSchool = async (id_truong) => {
     try {
@@ -224,14 +225,26 @@ export default function SchoolList(props) {
                 )}
                 {(isRate || isEditRate) && (
                   <div className='send-comment'>
-                    <Input
-                      name='danh_gia'
-                      type='textarea'
-                      placeholder='Đánh giá của bạn'
-                      // onChange={(e) => setCommentRated(e.target.value)}
-                      onBlur={(e) => setCommentRated(e.target.value)}
-                      value={commentRated !== '' ? commentRated : null}
-                    />
+                    {isEditRate && (
+                      <Input
+                        name='danh_gia'
+                        type='textarea'
+                        placeholder='Đánh giá của bạn'
+                        onChange={(e) => setCommentRated(e.target.value)}
+                        // onBlur={(e) => setCommentRated(e.target.value)}
+                        value={commentRated !== '' ? commentRated : null}
+                      />
+                    )}
+                    {isRate && (
+                      <Input
+                        name='danh_gia'
+                        type='textarea'
+                        placeholder='Đánh giá của bạn'
+                        // onChange={(e) => setCommentRated(e.target.value)}
+                        onBlur={(e) => setCommentRated(e.target.value)}
+                        value={commentRated !== '' ? commentRated : null}
+                      />
+                    )}
                     {!isEditRate && <Label for='hinh_anh'>Đính kèm ảnh:</Label>}
                     {!isEditRate && (
                       <Input

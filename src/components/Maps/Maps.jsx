@@ -27,6 +27,7 @@ function Maps(props) {
     handleSetIdSchoolEditing,
     justAddSchool,
     handleSetJustDeletedSchool,
+    justDeletedSchool,
   } = props
   const icon = L.icon({
     iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
@@ -154,6 +155,7 @@ function Maps(props) {
           justAddSchool={justAddSchool}
           schoolList={schoolList}
           handleSetJustDeletedSchool={handleSetJustDeletedSchool}
+          justDeletedSchool={justDeletedSchool}
         />
         <Draw listDrawData={listDrawData} icon={greenIcon} username={tokenDecoded.username} />
         <Minimap position='bottomright' zoom='4' />

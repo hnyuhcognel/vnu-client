@@ -81,6 +81,18 @@ function SideBar(props) {
           Tất cả trường
         </option>
         {schoolList &&
+          areaValue &&
+          (!cityValue || cityValue == 0) &&
+          (!groupValue || groupValue == 0) &&
+          schoolList.map((school, index) => {
+            if (school.id_mien == areaValue)
+              return (
+                <option key={index} value={school.id_truong}>
+                  {school.tentruong}
+                </option>
+              )
+          })}
+        {schoolList &&
           cityValue &&
           groupValue &&
           schoolList.map((school, index) => {
@@ -114,6 +126,7 @@ function SideBar(props) {
               )
           })}
         {schoolList &&
+          (!areaValue || areaValue == 0) &&
           (!cityValue || cityValue == 0) &&
           (!groupValue || groupValue == 0) &&
           schoolList.map((school, index) => (
